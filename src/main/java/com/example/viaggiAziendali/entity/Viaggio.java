@@ -26,7 +26,7 @@ public class Viaggio {
 
     private LocalDate dataViaggio;
     private String stato;
-    @OneToMany(mappedBy = "viaggio")
+    @OneToMany(mappedBy = "viaggio",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Prenotazione> prenotazioni;
 
 

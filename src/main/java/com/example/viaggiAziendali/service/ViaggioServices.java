@@ -18,14 +18,10 @@ public class ViaggioServices {
     ViaggioRepository viaggioDAO;
 
     //inserimento :
-    public String insertViaggi(ViaggioDTO viaggioDTO){
+    public Viaggio insertViaggi(ViaggioDTO viaggioDTO){
         Viaggio viaggio=dto_entity(viaggioDTO);
-
         viaggioDAO.save(viaggio);
-
-        return "Il viaggio con destionazione: "+viaggio.getDestinazione()+" è stato inserito correttamente";
-
-
+        return viaggio;
     }
 
     public String popolaViaggi(List<ViaggioDTO> lista){
@@ -42,7 +38,11 @@ public class ViaggioServices {
         return viaggioDAO.findById(id).orElseThrow(()->new NotFoundExcep(id));
     }
 
-     public List<ViaggioDTO> getAllViaggi(){
+
+    public List<Viaggio> getAllViaggi(){
+        return viaggioDAO.findAll();
+    }
+     public List<ViaggioDTO> getAllViaggiPaginazione(){
 
         List<Viaggio> listaViaggi= viaggioDAO.findAll();
         List<ViaggioDTO> listaViaggiDto=new ArrayList<>();

@@ -1,7 +1,9 @@
 package com.example.viaggiAziendali.service;
 
 
+import com.example.viaggiAziendali.entity.Dipendente;
 import com.example.viaggiAziendali.entity.Prenotazione;
+import com.example.viaggiAziendali.entity.Viaggio;
 import com.example.viaggiAziendali.payload.PrenotazioneDTO;
 import com.example.viaggiAziendali.repository.DipendenteRepository;
 import com.example.viaggiAziendali.repository.PrenotazioneRepository;
@@ -21,12 +23,20 @@ public class PrenotazioneServices {
 
 
 
+public  String insertPrenotazione(Long idViaggio,Long idDipen, PrenotazioneDTO prenotazioneDTO){
 
+    Viaggio viaggio=viaggioDAO.getById(idViaggio);
+    Dipendente dipendente=dipendenteDAO.getById(idDipen);
 
+    if(prenotazioneDAO.existsByDipendenteAndData(dipendente,prenotazioneDTO.getData())){
+        throw new IllegalStateException("Il dipendente ha gia una prenotazione in corso per questa data");
+    }
+    Prenotazione prenotazione=dto_entity(prenotazioneDTO);
+    prenotazioneDAO.save(prenotazione);
 
+    return "prenotazione effettuata";
 
-
-
+}
 
 
 

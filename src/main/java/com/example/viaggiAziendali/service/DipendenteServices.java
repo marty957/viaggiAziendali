@@ -20,12 +20,11 @@ public class DipendenteServices {
 
 //inserimento dipendenti da parte del client
 
-    public String insertDipendenti(DipendenteDTO dipendenteDTO){
+    public Dipendente insertDipendenti(DipendenteDTO dipendenteDTO){
 
         Dipendente nuovoDipendente=dto_entity(dipendenteDTO);
         dipendenteDAO.save(nuovoDipendente);
-        return "Dipendete"+nuovoDipendente.getNome()
-                +" "+ nuovoDipendente.getCognome()+" è stato inserito correttamente";
+        return  nuovoDipendente;
     }
 
     public String popolaDipendenti(List<DipendenteDTO> lista){
@@ -49,7 +48,7 @@ public class DipendenteServices {
 
     }
 
-    public List<DipendenteDTO> getAllDipendenti(){
+    public List<DipendenteDTO> getAllDipendentiPaginazione(){
         List<Dipendente> listaDipendenti=dipendenteDAO.findAll();
         List<DipendenteDTO> listaDipendetiDTO= new ArrayList<>();
 
@@ -60,6 +59,10 @@ public class DipendenteServices {
         return listaDipendetiDTO;
     }
 
+
+    public List<Dipendente> getAllDipendenti(){
+        return dipendenteDAO.findAll();
+    }
 //CANCELLAZIONE
 
     public String cancellaDipendente(Long id){
