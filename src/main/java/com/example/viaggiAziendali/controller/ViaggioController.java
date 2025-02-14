@@ -50,7 +50,7 @@ public class ViaggioController {
 
 
     // 6 DELETE - http://localhost:3001/viaggi/{id}
-    @DeleteMapping("/{id]")
+    @DeleteMapping("/{id}")
     public void deleteViaggio(@PathVariable Long id){
         service.deleteViaggio(id);
     }
