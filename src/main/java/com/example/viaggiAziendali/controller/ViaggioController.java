@@ -3,6 +3,7 @@ package com.example.viaggiAziendali.controller;
 
 import com.example.viaggiAziendali.entity.Viaggio;
 import com.example.viaggiAziendali.exception.NotFoundExcep;
+import com.example.viaggiAziendali.payload.PrenotazioneDTO;
 import com.example.viaggiAziendali.payload.ViaggioDTO;
 import com.example.viaggiAziendali.service.ViaggioServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class ViaggioController {
     }
 
     // 4 PUT - http://localhost:3001/viaggi/{id}
-    @PutMapping("/viaggi/{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public Viaggio modificaViaggio(@PathVariable long id,@RequestBody @Validated ViaggioDTO viaggioDTO){
         return service.updateViaggio(id,viaggioDTO);
@@ -56,7 +57,7 @@ public class ViaggioController {
 
     // 5 PATCH - http://localhost:3001/viaggi/{id}
 
-    @PatchMapping("/viaggi/{id}")
+    @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Viaggio> modificaStatoViaggio(@PathVariable long id,
                                                            @Validated @RequestBody String statoViaggioDTO,
@@ -74,6 +75,23 @@ public class ViaggioController {
 
     }
 
+
+    // PRENOTAZIONE:
+    @PatchMapping("/{id}/assegna")
+    public ResponseEntity<?> prenotazione(@PathVariable long id, @RequestBody @Validated PrenotazioneDTO body,
+                                          BindingResult validazione){
+        if(validazione.hasErrors()){
+           return ResponseEntity.badRequest().build();
+        }
+
+        try{
+            service.asssegnaDip(id, body.getFk_dipendente());
+            return ResponseEntity.ok().build();
+        }catch (NotFoundExcep excep){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(excep.getMessage());
+
+        }
+    }
 
 
 

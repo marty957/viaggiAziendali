@@ -1,13 +1,18 @@
 package com.example.viaggiAziendali.service;
 
 
+import com.example.viaggiAziendali.entity.Dipendente;
+import com.example.viaggiAziendali.entity.Prenotazione;
 import com.example.viaggiAziendali.entity.Viaggio;
 import com.example.viaggiAziendali.exception.NotFoundExcep;
 import com.example.viaggiAziendali.payload.ViaggioDTO;
+import com.example.viaggiAziendali.repository.DipendenteRepository;
+import com.example.viaggiAziendali.repository.PrenotazioneRepository;
 import com.example.viaggiAziendali.repository.ViaggioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +21,10 @@ public class ViaggioServices {
 
     @Autowired
     ViaggioRepository viaggioDAO;
+    @Autowired
+    DipendenteRepository dipendenteDAO;
+    @Autowired
+    PrenotazioneRepository prenotazioneDAO;
 
     //inserimento :
     public Viaggio insertViaggi(ViaggioDTO viaggioDTO){
@@ -79,6 +88,23 @@ public class ViaggioServices {
 
         return listaViaggiDto;
 
+
+}
+public String asssegnaDip(long idViaggio, long idDipendente){
+
+        Viaggio viaggio=viaggioDAO.getById(idViaggio);
+    Dipendente dipendente= dipendenteDAO.getById(idDipendente);
+
+    if(prenotazioneDAO.existsByDipendenteAndData(dipendente,viaggio.getDataViaggio())){
+        throw new RuntimeException("Il dipendente: "+ dipendente.getNome()+" "+ dipendente.getCognome()+" ha gia una prenotazione per ");
+    }
+    Prenotazione prenotazione = new Prenotazione();
+    prenotazione.setViaggio(viaggio);
+    prenotazione.setDipendente(dipendente);
+    prenotazione.setData(LocalDate.now());
+
+    prenotazioneDAO.save(prenotazione);
+    return "prenotazione effettuata";
 
 }
 //cancellazione

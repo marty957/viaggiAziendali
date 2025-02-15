@@ -23,7 +23,7 @@ public class PrenotazioneServices {
 
 
 
-public  String insertPrenotazione(Long idViaggio,Long idDipen, PrenotazioneDTO prenotazioneDTO){
+/*public  String insertPrenotazione(Long idViaggio,Long idDipen, PrenotazioneDTO prenotazioneDTO){
 
     Viaggio viaggio=viaggioDAO.getById(idViaggio);
     Dipendente dipendente=dipendenteDAO.getById(idDipen);
@@ -36,9 +36,7 @@ public  String insertPrenotazione(Long idViaggio,Long idDipen, PrenotazioneDTO p
 
     return "prenotazione effettuata";
 
-}
-
-
+}*/
 
     //metodi dto->entity e entity->dto
 

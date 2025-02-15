@@ -13,7 +13,7 @@ public class PrenotazioneDTO {
 
     @NotNull(message = "specificare il viaggio")
     private Long fk_viaggio;
-    @NotNull(message = "specificare l'autore del post")
+    @NotNull(message = "specificare il dipendente")
     private Long fk_dipendente;
     @NotNull(message = "data obbligatoria")
     private LocalDate data;
