@@ -32,6 +32,31 @@ public class ViaggioServices {
         return "la lista viaggi è stata inserita";
     }
 
+    //modifica:
+
+    public Viaggio updateViaggio(long id, ViaggioDTO viaggioDTO){
+        Viaggio viaggioModificato= viaggioDAO.getById(id);
+        if(viaggioModificato==null){
+            throw new NotFoundExcep("Viaggio non trovato");
+        }
+
+        viaggioModificato.setDataViaggio(viaggioDTO.getDataViaggio());
+        viaggioModificato.setDestinazione(viaggioDTO.getDestinazione());
+        viaggioModificato.setStato(viaggioDTO.getStato());
+        viaggioDAO.save(viaggioModificato);
+        return viaggioModificato;
+    }
+
+    public Viaggio updateStatoViaggio(long id, String stato){
+        Viaggio viaggio= viaggioDAO.getById(id);
+        if(viaggio==null){
+            throw new NotFoundExcep("Viaggio non trovato");
+        }
+
+        viaggio.setStato(stato);
+        viaggioDAO.save(viaggio);
+        return viaggio;
+    }
 //ricerca:
 
     public Viaggio getById(long id){

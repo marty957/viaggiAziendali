@@ -2,11 +2,13 @@ package com.example.viaggiAziendali.service;
 
 
 import com.example.viaggiAziendali.entity.Dipendente;
+import com.example.viaggiAziendali.exception.NotFoundExcep;
 import com.example.viaggiAziendali.payload.DipendenteDTO;
 import com.example.viaggiAziendali.repository.DipendenteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +65,25 @@ public class DipendenteServices {
     public List<Dipendente> getAllDipendenti(){
         return dipendenteDAO.findAll();
     }
+
+    //Modifica
+
+    public Dipendente modificaDipendene(long id, DipendenteDTO dip){
+        Dipendente dipendenteModificato= dipendenteDAO.getById(id);
+
+         if(dipendenteModificato==null){
+             throw new NotFoundExcep("Dipendente non trovato");
+         }
+
+        dipendenteModificato.setEmail(dip.getEmail());
+        dipendenteModificato.setNome(dip.getNome());
+        dipendenteModificato.setUsername(dip.getUsername());
+        dipendenteModificato.setCognome(dip.getCognome());
+        dipendenteModificato.setFoto(dip.getFoto());
+        dipendenteDAO.save(dipendenteModificato);
+        return dipendenteModificato;
+    }
+
 //CANCELLAZIONE
 
     public String cancellaDipendente(Long id){

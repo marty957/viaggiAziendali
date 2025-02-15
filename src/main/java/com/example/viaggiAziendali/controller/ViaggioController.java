@@ -2,10 +2,13 @@ package com.example.viaggiAziendali.controller;
 
 
 import com.example.viaggiAziendali.entity.Viaggio;
+import com.example.viaggiAziendali.exception.NotFoundExcep;
 import com.example.viaggiAziendali.payload.ViaggioDTO;
 import com.example.viaggiAziendali.service.ViaggioServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,8 +47,33 @@ public class ViaggioController {
         return service.getById(id);
     }
 
-    // 4 PUT - http://localhost:3001/viaggi
-    // 5 PATCH - http://localhost:3001/viaggi
+    // 4 PUT - http://localhost:3001/viaggi/{id}
+    @PutMapping("/viaggi/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Viaggio modificaViaggio(@PathVariable long id,@RequestBody @Validated ViaggioDTO viaggioDTO){
+        return service.updateViaggio(id,viaggioDTO);
+    }
+
+    // 5 PATCH - http://localhost:3001/viaggi/{id}
+
+    @PatchMapping("/viaggi/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Viaggio> modificaStatoViaggio(@PathVariable long id,
+                                                           @Validated @RequestBody String statoViaggioDTO,
+                                                           BindingResult validazione) {
+
+        if(validazione.hasErrors()){
+            return ResponseEntity.badRequest().build();
+        }
+        try{
+            Viaggio v= service.updateStatoViaggio(id,statoViaggioDTO);
+            return ResponseEntity.ok(v);
+        }catch (NotFoundExcep e){
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
 
 
 

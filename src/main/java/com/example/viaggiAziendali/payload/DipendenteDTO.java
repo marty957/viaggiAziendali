@@ -26,7 +26,7 @@ public class DipendenteDTO {
 
     @Email(message = "email non valida")
     private String email;
-
+    private String foto;
 
 
 }

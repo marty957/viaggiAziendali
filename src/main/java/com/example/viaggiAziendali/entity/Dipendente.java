@@ -28,6 +28,7 @@ public class Dipendente {
     private String cognome;
     @Column(unique = true,nullable = false)
     private String email;
+    private String foto;
 
     @OneToMany(mappedBy = "dipendente")
     List<Prenotazione> listaPrenotazione;
