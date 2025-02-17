@@ -28,7 +28,7 @@ public class DipendenteController {
     DipendenteServices service;
     @Autowired
     Cloudinary cloudinary;
-
+@Autowired JwtUtils jwtUtils;
     // 1. - POST http://localhost:3001/dipendenti/nuovoDipendente
     @PostMapping("/nuovoDipendente")
     @ResponseStatus(HttpStatus.CREATED)
@@ -55,6 +55,7 @@ public class DipendenteController {
             throw new RuntimeException(e);
         }
     }
+
 
 
     // 2. GET http://localhost:3001/dipendenti
